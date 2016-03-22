@@ -528,7 +528,7 @@
 		<way attribute="speed" type="speed">
 			<select value="1"  t="highway" v="steps"/>
 			<select value="3"  t="route"   v="ferry"/>
-			<select value="5.5"  t="bicycle" v="dismount"/>
+			<select value="5"  t="bicycle" v="dismount"/>
 			<select value="5" t="highway" v="motorway"/>
 			<select value="5" t="highway" v="motorway_link"/>
 			<select value="5" t="highway" v="trunk"/>
