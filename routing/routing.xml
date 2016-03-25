@@ -558,7 +558,7 @@
 			<select value="18.9" t="highway" v="road"/>
 			<select value="23.5" t="highway" v="residential"/>
 			<select value="19.1" t="highway" v="cycleway"/>
-			<select value="18.9" t="highway" v="unclassified"/>
+			<select value="22" t="highway" v="unclassified"/>
 			<select value="15.5" t="highway" v="service"/>
 			<select value="19.0" t="highway" v="track"/>
 			<select value="17" t="highway" v="path"/>
@@ -596,7 +596,7 @@
 				<select value="0.1" t="surface" v="mud"/>
 				<select value="0.1" t="surface" v="pebblestone"/>
 				<select value="0.1" t="surface" v="sand"/>
-				<select value="0.5" t="surface" v="wood"/>
+				<select value="0.6" t="surface" v="wood"/>
 			</if>
 
 			<select value="1" t="bicycle" v="dismount"/>
@@ -636,13 +636,13 @@
 			<select value="0.75" t="surface" v="grass"/>
 			<select value="0.75" t="surface" v="ground"/>
 			<select value="0.5" t="surface" v="mud"/>
-			<select value="1.0" t="highway" v="road"/>
-			<select value="1.0" t="highway" v="unclassified"/>
-			<select value="1.0" t="highway" v="service"/>
 			<select value="1.1" t="surface" v="compacted"/>
 			<select value="1.1" t="surface" v="fine_gravel"/>
-			<select value="0.8" t="surface" v="wood"/>
+			<select value="1.0" t="surface" v="wood"/>
 			<select value="0.76" t="highway" v="footway"/>
+			<select value="1.0" t="highway" v="unclassified"/>
+			<select value="1.0" t="highway" v="road"/>
+			<select value="1.0" t="highway" v="service"/>
 			<select value="0.75" t="highway" v="track"/>
 			<select value="0.6" t="highway" v="path"/>
 
