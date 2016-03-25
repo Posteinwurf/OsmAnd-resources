@@ -425,7 +425,7 @@
 		</point>
 	</routingProfile>
 
-	<routingProfile name="bicycle" baseProfile="bicycle" restrictionsAware="true" minDefaultSpeed="2" maxDefaultSpeed="25.5"
+	<routingProfile name="bicycle" baseProfile="bicycle" restrictionsAware="true" minDefaultSpeed="2" maxDefaultSpeed="28.5"
 			leftTurn="0" rightTurn="0" followSpeedLimitations="false" onewayAware="true" heuristicCoefficient="1.4">
 		<!-- <attribute name="relaxNodesIfStartDistSmallCoeff" value="2.5"/>  -->
 		<!-- New ROUTING API -->
@@ -535,16 +535,16 @@
 			<select value="5" t="highway" v="trunk_link"/>
 
 		<if param="avoid_traffic_signals">
-			<select value="8.1" t="highway" v="primary"/>
-			<select value="8.1" t="highway" v="primary_link"/>
-			<select value="9.5" t="highway" v="secondary"/>
-			<select value="9.5" t="highway" v="secondary_link"/>
-			<select value="13.2" t="highway" v="tertiary"/>
-			<select value="13.2" t="highway" v="tertiary_link"/>
+			<select value="7" t="highway" v="primary"/>
+			<select value="7" t="highway" v="primary_link"/>
+			<select value="9" t="highway" v="secondary"/>
+			<select value="9" t="highway" v="secondary_link"/>
+			<select value="13" t="highway" v="tertiary"/>
+			<select value="13" t="highway" v="tertiary_link"/>
 			<select value="22" t="highway" v="residential"/>
-			<select value="20.7" t="highway" v="cycleway"/>
-			<select value="20.7" t="highway" v="track"/>
-			<select value="18.9" t="highway" v="path"/>
+			<select value="21" t="highway" v="cycleway"/>
+			<select value="22" t="highway" v="track"/>
+			<select value="19" t="highway" v="path"/>
 			<select value="18.8" t="highway" v="footway"/>
 		</if>
 
@@ -557,12 +557,12 @@
 			<select value="14.5" t="highway" v="tertiary_link"/>
 			<select value="18.9" t="highway" v="road"/>
 			<select value="23.5" t="highway" v="residential"/>
-			<select value="19.1" t="highway" v="cycleway"/>
-			<select value="22" t="highway" v="unclassified"/>
+			<select value="22.0" t="highway" v="cycleway"/>
+			<select value="23" t="highway" v="unclassified"/>
 			<select value="15.5" t="highway" v="service"/>
 			<select value="19.0" t="highway" v="track"/>
 			<select value="17" t="highway" v="path"/>
-			<select value="20.7" t="highway" v="living_street"/>
+			<select value="23" t="highway" v="living_street"/>
 			<select value="14" t="highway" v="pedestrian"/>
 			<select value="15.5" t="highway" v="footway"/>
 			<select value="10"  t="highway" v="byway"/>
@@ -603,19 +603,19 @@
 			<select value="0.5" t="cycleway" v="sidepath"/>
 			<select value="0.45" t="footway" v="sidewalk"/>
 			<select value="1.3" t="tracktype" v="grade1"/>
-			<select value="1.25" t="tracktype" v="grade2"/>
-			<select value="1.1" t="tracktype" v="grade3"/>
+			<select value="1.15" t="tracktype" v="grade2"/>
+			<select value="1.0" t="tracktype" v="grade3"/>
 			<select value="0.7" t="tracktype" v="grade4"/>
 			<select value="0.5" t="tracktype" v="grade5"/>
 			<select value="0.7" t="surface" v="cobblestone"/>
-			<select value="1.3" t="cycleway" v="lane"/>
-			<select value="1.3" t="cycleway" v="opposite_lane"/>
-			<select value="1.05" t="cycleway" v="share_busway"/>
-			<select value="1.3" t="cycleway" v="track"/>
-			<select value="1.3" t="cycleway" v="opposite_track"/>
+			<select value="1.5" t="cycleway" v="lane"/>
+			<select value="1.5" t="cycleway" v="opposite_lane"/>
+			<select value="1.1" t="cycleway" v="share_busway"/>
+			<select value="1.5" t="cycleway" v="track"/>
+			<select value="1.5" t="cycleway" v="opposite_track"/>
 			<select value="0.8" t="cycleway" v="shared"/>
 			<select value="0.8" t="cycleway" v="shared_lane"/>
-			<select value="1.2" t="bridge" v="yes"/>
+			<select value="1.1" t="bridge" v="yes"/>
 			<select value="1.0" t="highway" v="primary"/>
 			<select value="1.0" t="highway" v="secondary"/>
 			<select value="1.0" t="highway" v="tertiary"/>
