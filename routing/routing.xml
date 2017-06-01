@@ -484,7 +484,7 @@
 	</routingProfile>
 
 	<routingProfile name="bicycle" baseProfile="bicycle" restrictionsAware="true" minDefaultSpeed="2" maxDefaultSpeed="37"
-			leftTurn="5" rightTurn="3" followSpeedLimitations="false" onewayAware="true" heuristicCoefficient="1.4">
+			leftTurn="4" rightTurn="2" followSpeedLimitations="false" onewayAware="true" heuristicCoefficient="1.4">
 		<!-- <attribute name="relaxNodesIfStartDistSmallCoeff" value="2.5"/>  -->
 		<!-- New ROUTING API -->
 
@@ -498,15 +498,11 @@
 		<parameter id="relief_smoothness_factor_more_plains" group="relief_smoothness_factor" name="More plains" description="" type="boolean"/>
 		<parameter id="relief_smoothness_factor_plains" group="relief_smoothness_factor" name="Plains" description="" type="boolean" default="true"/>
 		<parameter id="relief_smoothness_factor_hills" group="relief_smoothness_factor" name="Hills" description="" type="boolean"/>
-
 		<parameter id="avoid_unpaved" name="Avoid unpaved roads" description="Avoid unpaved roads" type="boolean"/>
 		<parameter id="avoid_ferries" name="Avoid ferries" description="Avoid ferries" type="boolean"/>
 		<parameter id="avoid_stairs" name="Avoid stairs" description="Avoid stairs" type="boolean"/>
 		<parameter id="avoid_borders" name="Avoid border crossing" description="Avoid crossing a border into another country" type="boolean"/>
 		<parameter id="allow_motorway" name="Allow motorways" description="Allow motorways" type="boolean"/>
-		<!-- line above: is there a possibility to set "allow_motorway" OFF by default? In most
-		countries it is absolutely forbidden to use them with a bicycle. So we should
-		make sure that the user can only turn this option on ACTIVELY. Maybe even a pop up warning? --> 
 		<parameter id="height_obstacles" name="Use elevation data" description="Use terrain elevation data provided by SRTM, ASTER and EU-DEM" type="boolean"/>
 
 		<way attribute="access">
@@ -521,7 +517,9 @@
 				<select value="1" t="highway" v="motorway_link"/>
 				<select value="1" t="highway" v="trunk"/>
 				<select value="1" t="highway" v="trunk_link"/>
-				<select value="1" t="motorroad" v="yes"/>
+			<!-- line above: This line should be deleted. Motorroads have 
+			already been excluded above (which is the right choice). -->
+
 			</if>
 			<select value="-1" t="route" v="ferry">
 				<if param="avoid_ferries"/>
@@ -529,22 +527,22 @@
 			<select value="-1" t="highway" v="steps">
 				<if param="avoid_stairs"/>
 			</select>
-
 			<select value="-1" t="highway" v="motorway"/>
 			<select value="-1" t="highway" v="motorway_link"/>
 			<select value="-1" t="highway" v="trunk"/>
 			<select value="-1" t="highway" v="trunk_link"/>
-			<!-- lines above: just moved these lines up here
+			<select value="-1" t="motorroad" v="yes"/>
+			<!-- lines above: These lines should be moved here
 			to make sure that motorways are excluded if they
 			are not explicitly allowed by the user.-->
 			<select value="-1" t="highway" v="elevator"/>
-			<!-- line above: The Osmand routing engine still does
-			not recognise elevators. So the -1 does not work here
+			<!-- line above: The routing engine still cannot
+			recognise elevators. So the -1 does not work here
 			(e.g. the routing DOES use elevators at the moment!)
 			Could someone fix this? Important, causes some errors. --> 
+
 			<select value="-1" t="highway" v="construction"/>
 			<select value="-1" t="construction" v="yes"/>
-			<select value="-1" t="motorroad" v="yes"/>
 			<select value="-1" t="bicycle" v="no"/>
 			<select value="1"  t="bicycle" v="yes"/>
 			<select value="1"  t="bicycle" v="permissive"/>
@@ -560,16 +558,6 @@
 			<select value="-1" t="sac_scale" v="difficult_alpine_hiking"/>
 			<select value="-1" t="mtb:scale" v="5"/>
 			<select value="-1" t="mtb:scale" v="6"/>
-
-			<select value="1" t="vehicle" v="no"/>
-			<!-- The tag vehicle=no is normally used when mappers
-			want to exclude motor vehicles. I have never seen a case
-			when such a road was actually forbidden for bicycles as
-			well. (Mappers often do not bother to add the bicycle=yes).
-			Example:www.openstreetmap.org/way/159679495  This is
-			even part of a bike route, but nevertheless only marked
-			vehicle=no. If a way is forbidden for bicycles,
-			there will be an "acces=no" instead of "vehicle=no".-->
 			<select value="1" t="vehicle" v="agricultural"/>
 			<select value="1" t="vehicle" v="forestry"/>
 			<select value="1"  t="vehicle" v="yes"/>
@@ -579,6 +567,18 @@
 			
 			<select value="-1" t="access" v="no"/>
 			<select value="-1" t="access" v="private"/>
+			<select value="1" t="vehicle" v="no"/>
+			<!-- Even if vehicles are forbidden, cyclists can
+			always dismount. Therefore, these routes are
+			allowed here, but should be heavily downgraded later. 
+			The tag vehicle=no is normally used when mappers
+			want to exclude motor vehicles. It is rare that
+			such a road is actually forbidden for bicycles as
+			well. (Mappers often do not bother to add the bicycle=yes).
+			Example:www.openstreetmap.org/way/159679495  This is
+			even part of a bike route, but nevertheless only marked
+			vehicle=no.-->
+
 			<select value="1" t="access" v="agricultural"/>
 			<select value="1" t="access" v="forestry"/>
 			<select value="1"  t="access" v="yes"/>
@@ -586,6 +586,10 @@
 
 			<select value="-1" t="crossing" v="no"/>
 
+			<select value="-1" t="highway" v="motorway"/>
+			<select value="-1" t="highway" v="motorway_link"/>
+			<select value="-1" t="highway" v="trunk"/>
+			<select value="-1" t="highway" v="trunk_link"/>
 			<select value="1" t="highway" v="primary"/>
 			<select value="1" t="highway" v="primary_link"/>
 			<select value="1" t="highway" v="secondary"/>
@@ -629,23 +633,25 @@
 		<way attribute="speed" type="speed">
 			<select value="1.3" t="highway" v="steps"/>
 			<select value="3" t="route"   v="ferry"/>
-			<select value="5" t="bicycle" v="dismount"/>
-			<!-- <select value="22" t="bicycle" v="designated"/>-->
-			<!-- Line above: Does the "bicycle designated" work here?
-			So far, we have assigned a kmh value to tracks, paths etc - 
-			can a kmh value also be assigned to a tag like "bicycle designated"?
-			If so: Would all tracks, paths etc tagged with "bicycle designated"
-			be multiplied later on (so that, if they are tagged with "paved" or
-			"asphalt", the 23 kmh would be multiplied with the "paved" factor)?
-			Could someone please help me understand this?
-			If it works as described, it adds some great possibilities.-->
+			<select value="6" t="vehicle" v="no"/>
 
-			<!-- <select value="4" t="highway" v="track"/> <select value="4" t="highway" v="footway"/> <select value="3" t="highway" v="path"/>-->
-			<!-- Line above: This line contained downgrades for the
-			"avoid unpaved" mode and has been moved further down.
-			Osmand first has to check if a path or track is paved,
-			asphalt, etc. Only if no tag like "asphalt" has been
-			found, then paths / tracks etc should be downgraded.-->
+			<select value="5" t="bicycle" v="dismount"/>
+			<!-- Line above: I think it is a better solution
+			not to set a fixed value here for bicycle=designated. 
+			I have done some research: Even with bicycle=designated
+			a way can be unpaved. www.openstreetmap.org/way/294000641
+			Osmand should still be able to downgrade these ways in
+			"avoid unpaved" mode. We are making this possible by
+			not setting a fixed value here for bicycle=designated.
+			And we are not loosing anything, because when not in "avoid
+			unpaved mode" bicycle=designated will always get a big
+			upgrade later which leads to values of 34 or more.-->
+			<!-- Lines above: These lines should be deleted here
+			and moved further down. They contain downgrades
+			for the "avoid unpaved" mode. In that mode, Osmand
+			should check if a path or track is paved, asphalt,
+			etc. Only if no tag like "asphalt" has been found,
+			then paths / tracks etc should be downgraded.-->
 			<if param="driving_style_speed">
 				<select value="19" t="highway" v="motorway"/>
 				<select value="19" t="highway" v="motorway_link"/>
@@ -683,10 +689,10 @@
 				<select value="22" t="highway" v="residential"/>
 				<select value="22" t="highway" v="track"/>
 				<select value="19" t="highway" v="path"/>
-				<select value="18" t="highway" v="footway"/>
+				<select value="18.8" t="highway" v="footway"/>
 			</if>
 
-			<select value="23.0" t="route_bicycle"/>
+			<select value="24.0" t="route_bicycle"/>
 			<select value="8" t="highway" v="primary"/>
 			<select value="8" t="highway" v="primary_link"/>
 			<select value="10.5" t="highway" v="secondary"/>
@@ -790,8 +796,8 @@
 			<select value="0.1" t="bicycle" v="private"/>
 			<select value="0.2" t="bicycle" v="destination"/>
 <!--			<select value="0.05" t="access" v="private"/>-->
-			<select value="0.3" t="indoor" v="yes"/>
-			<select value="0.3" t="tunnel" v="building_passage"/>
+			<select value="0.4" t="indoor" v="yes"/>
+			<select value="0.3" t="vehicle" v="no"/>
 			<select value="0.1" t="barrier" v="debris"/>
 			<select value="0.1" t="bicycle" v="use_sidepath"/>
 
@@ -804,7 +810,8 @@
 				<select value="0.15" t="osmand_highway_integrity_brouting" v="8"/>
 				<select value="0.1" t="osmand_highway_integrity_brouting" v="9"/>
 				<select value="0.05" t="osmand_highway_integrity_brouting" v="10"/>
-				<select value="0.4" t="tracktype" v="grade2"/>
+
+<!--				<select value="0.4" t="tracktype" v="grade2"/>
 				<select value="0.1" t="tracktype" v="grade3"/>
 				<select value="0.1" t="tracktype" v="grade4"/>
 				<select value="0.1" t="tracktype" v="grade5"/>
@@ -822,12 +829,12 @@
 				<select value="0.1" t="mtb:scale" v="1"/>
 				<select value="0.1" t="mtb:scale" v="2"/>
 				<select value="0.1" t="class:bicycle:mtb" v="-1"/>
+<!--				<select value="0.6" t="surface" v="wood"/>-->
 			</if>
 
-			<select value="0.6" t="bicycle" v="dismount"/>
+			<select value="0.5" t="bicycle" v="dismount"/>
 			<select value="0.5" t="cycleway" v="sidepath"/>
 			<select value="0.45" t="footway" v="sidewalk"/>
-
 			<!-- Following lines: I have changed the order,
 			according to the following scheme:	
 			
@@ -835,7 +842,7 @@
 			surface (mud, grade5 etc). Those should be downgraded in any
 			case (no matter if path/primary/cycleway/etc). Also, 
 			"cobblestone" should already be downgraded here (otherwise,
-			it would be ignored too often, for example because if it is
+			it would be ignored too often, for example because it is
 			overruled by "bicycle=yes").
 			
 			2.) Upgrade cycle lanes and cycle tracks. Normally, those are
@@ -978,7 +985,6 @@
 			<select value="0.5" t="highway" v="trunk"/>
 			<select value="0.5" t="highway" v="trunk_link"/>
 
-
 		</way>
 
 		<point attribute="obstacle_time">
@@ -994,6 +1000,9 @@
 			<select value="20" t="crossing" v="traffic_signals"/>
 			<select value="15" t="highway" v="stop"/>
 			<select value="7"  t="highway" v="give_way"/>
+			<if param="driving_style_safety">
+				<select value="300" t="ford"/>
+			</if>
 			<select value="200" t="ford"/>
 			<select value="25" t="railway" v="crossing"/>
 			<select value="25" t="railway" v="level_crossing"/>
@@ -1010,8 +1019,7 @@
 			</if>
 			<!-- Lines above: These values are only a workaround. They apply until 
 			one issue is resolved: The triple counting of traffic lights at main
-			junctions. This can hopefully be resolved when rendering the data for
-			the routing engine.
+			junctions. This can hopefully be resolved within map rendering.
 			Any combination of values that we put here (into the routing.xml)
 			leads to routing errors. The above is only a compromise to minimize
 			those errors.-->
@@ -1055,7 +1063,7 @@
 
 		</point>
 
-		<!-- <way attribute="penalty_transition">
+		<way attribute="penalty_transition">
 			<if param="driving_style_balance">
 				<select value="1" t="highway" v="trunk"/>
 				<select value="2" t="highway" v="trunk_link"/>
@@ -1090,13 +1098,7 @@
 				<select value="87" t="highway" v="path"/>
 				<select value="90"/>
 			</if>
-			lines above: The penalty_transition is an interesting tool, but
-			leads to longer route calculation times. I have done some tests.
-			Even without penalty_transition, the calculation of a 15 km route
-			in a city already needs more than 90 seconds. So I think, it
-			would probably be better to skip penalty_transition. Finally, it
-			is not as important for cycle routing as it is for car routing. 
-		</way> -->
+		</way>
 
 	</routingProfile>
 
@@ -1107,6 +1109,7 @@
 		<!-- NEW ROUTING API -->
 		<parameter id="avoid_ferries" name="Avoid ferries" description="Avoid ferries" type="boolean"/>
 		<parameter id="avoid_motorway" name="Avoid motorways" description="Avoid motorways" type="boolean"/>
+		<parameter id="height_obstacles" name="Use elevation data" description="Use terrain elevation data provided by SRTM, ASTER and EU-DEM" type="boolean"/>
 
 		<way attribute="access">
 			<select value="-1" t="osmand_change" v="delete"/>
@@ -1170,6 +1173,39 @@
 			<select value="5"/>
 		</way>
 
+		<way attribute="obstacle_srtm_alt_speed">
+			<if param="height_obstacles">
+				<gt value1="-60" value2=":incline">
+					<select value="35"/>
+				</gt>
+				<gt value1="-25" value2=":incline">
+					<select value="30"/>
+				</gt>
+				<gt value1="-17" value2=":incline">
+					<select value="17"/>
+				</gt>
+				<gt value1="-9" value2=":incline">
+					<select value="5"/>
+				</gt>
+				<gt value1="-3" value2=":incline">
+					<select value="1"/>
+				</gt>
+				<gt value1="3" value2=":incline">
+					<select value="1"/>
+				</gt>
+				<gt value1="7" value2=":incline">
+					<select value="4"/>
+				</gt>
+				<gt value1="13" value2=":incline">
+					<select value="8"/>
+				</gt>
+				<gt value1="25" value2=":incline">
+					<select value="10"/>
+				</gt>
+				<select value="15"/>
+			</if>
+		</way>
+
 		<way attribute="priority">
 			<!-- Additional tags -->
 			<select value="0.05" t="foot" v="private"/>
@@ -1179,8 +1215,7 @@
 			http://www.openstreetmap.org/way/173188624#map=18/39.56805/2.64846
 			should be 
 			<select value="0.05" t="access" v="private"/>
-			<select value="0.05" t="access" v="destination"/>
-		-->
+			<select value="0.05" t="access" v="destination"/> -->
 
 			<select value="1.2" t="sidewalk" v="yes"/>
 			<select value="0.9" t="sidewalk" v="no"/>
